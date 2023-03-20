@@ -2,12 +2,13 @@ const express = require("express");
 const routes = require("./routers/api");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const accountInfo = require('./accountInfo');
 
 //set up express app 
 const app = express();
 
 //connect to mongodb
-const dbURI = 'mongodb+srv://user:Agnes0517_@moviecluster.drxup1y.mongodb.net/fruitStand?retryWrites=true&w=majority';
+const dbURI = accountInfo.dbURI;
 mongoose.connect(dbURI, {useNewUrlParser: true, useUnifiedTopology: true})
     .then((result) => {
         app.listen(process.env.port || 4000, ()=> {

@@ -31,7 +31,8 @@
                             fruit: this.refs.fruit.value
                         })
                         // use googleAPI to convert address to lat & long
-                        const apiKey = "AIzaSyB2QIwkgOZZhlVNVYIIzOPMaspHlEWSOfw";
+                        const accountInfo = require('./accountInfo');
+                        const apiKey = accountInfo.apiKey;
                         
                         fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`)
                             .then(response => {
