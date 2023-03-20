@@ -1,0 +1,153 @@
+body {
+    background: url("fruits.png") no-repeat,#f4ca23;
+    background-size:cover;
+    margin: 10px 30px;
+    font-family: 'Barlow', sans-serif;
+    font-family: 'Lato', sans-serif;
+    color: #fff;
+}
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin:2%;
+}
+.name {
+    display: flex;
+    flex-direction: column;
+}
+.nav-bar {
+    display: flex;
+    align-items: center;
+}
+.title, .subtitle {
+    margin:0;
+}
+.title {
+    font-size: 2em;
+}
+.subtitle {
+    font-size: 1em;
+}
+.nav-bar-item {
+    margin-right: 20%;
+}
+#homepage {
+    max-width: 800px;
+    margin: 60px auto;
+    padding: 10px 20px;
+    border-radius: 4px;
+}
+
+input[type="text"] {
+    display: block;
+    width: 300px;
+    margin: 20px 0;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    color: black;
+    background-color:rgba(255, 255, 255, 0.6);
+}
+input[type=text]:focus {
+    outline: none;
+    /* Remove default outline and use border or box-shadow */
+    box-shadow: 0 0 0 2px orange;
+    /* Full freedom. (works also with border-radius) */
+}
+::placeholder {
+    /* Most modern browsers support this now. */
+    color: rgb(226, 221, 221);
+}
+label {
+    margin: 2%;
+    font-weight: 400;
+}
+
+
+#homepage h1 {
+    text-align: center;
+}
+
+form {
+    max-width: 350px;
+    margin: 30px auto;
+}
+
+input[type="submit"] {
+    background-color: rgba(255, 255, 255, 0.6);
+    color: #f4ca23;
+    border: 0;
+    padding: 10px;
+    font-size: 18px;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    display: block;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 2em;
+    font-weight: 600;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    padding: 15px 0;
+    background: #eee;
+    list-style-type: none;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+    border-radius: 4px;
+}
+
+span {
+    display: inline-block;
+    margin: 0 20px;
+}
+
+span.dist {
+    color: green;
+    float: right;
+}
+
+span.true {
+    border-radius: 10px;
+    width: 10px;
+    height: 10px;
+    background: green;
+}
+
+span.false {
+    border-radius: 10px;
+    width: 10px;
+    height: 10px;
+    background: #ff5252;
+}
+
+button {
+    background: green;
+    border: 0;
+    padding: 5px 10px;
+    color: #fff;
+    display: inline-block;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button.false {
+    display: none;
+}
+
+.stand-container {
+    margin-top: 10%;
+}
+a {
+    color: snow;
+    text-decoration: none;
+    /* no underline */
+}

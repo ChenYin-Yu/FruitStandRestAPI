@@ -1,0 +1,81 @@
+<html lang="en">
+    <%-include('./partials/header.ejs') %>
+    <body>
+        <%-include('./partials/nav.ejs') %>
+        <div id="homepage">
+        </div>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <script src="https://unpkg.com/react@15/dist/react.js"></script>
+        <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+        
+        <!-- create react component -->
+        <script type="text/babel">
+            class Stands extends React.Component{
+            //var Stands = React.createClass({
+                constructor(props) {
+                    super(props);
+                    this.state = { 
+                        stands:[],
+                        location: {lat:0, lng:0}, 
+                    };
+                }
+                render(){
+                    var stands = this.state.stands;
+
+                    // obtain user location
+                    if (window.navigator.geolocation) {
+                        window.navigator.geolocation.getCurrentPosition((data)=>{
+                            var d = data.coords;
+                            this.setState({
+                                location: {lat: d.latitude, long: d.longitude}
+                            })
+                        }, (err)=>{
+                            console.log(err);
+                        });
+                    }
+                        
+                    stands = stands.map((stand, index)=>{
+                        return(
+                            <li key={index}>
+                                <span className={stand.obj.available}></span>
+                                <span className="name">{stand.obj.name}</span>
+                                <span className="rank">{stand.obj.rank}</span>
+                                <span className="dist">{Math.floor(stand.dis / 1000)} km</span>
+                            </li>
+                        );
+                    });
+                    return(
+                       
+                        <div id="stand-container">
+                            <form id="search" onSubmit={this.handleSubmit}>
+                                
+                                <label>Enter the fruit you are looking for </label>
+                                <input type="text" ref="fruit" placeholder="fruit" required/>
+                                <input type="submit" value="Find Stands" />
+                            </form>
+                            <ul>{stands}</ul>
+                        </div>
+                    );                   
+                }
+                handleSubmit(e){
+                    e.preventDefault();
+                    var lng = this.state.location[lng];
+                    var lat = this.state.location[lat];
+                    var fruit = this.ref.fruit.value;
+                    
+                    fetch('/api/stands?lng=' + lng + '&lat=' + lat + '&fruit=' + fruit).then((data)=>{
+                        return data.json();
+                    }).then(json=> {
+                        this.setState({
+                            stands: json
+                        });
+                        console.log(json);
+                    });
+                    
+                }
+            };
+            ReactDOM.render(<Stands/>, document.getElementById("stand"));
+        </script>
+
+    </body>
+</html>

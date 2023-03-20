@@ -1,0 +1,99 @@
+<html lang="en">
+<%-include('./partials/header.ejs')%>
+
+    <body>
+        <%-include('./partials/nav.ejs')%>
+            <div id="homepage">
+                <h1>Register your stand</h1>
+                <div id="stand-vendor"></div>
+            </div>
+            <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+            <script src="https://unpkg.com/react@15/dist/react.js"></script>
+            <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+
+            <!-- create react component -->
+            <script type="text/babel">
+                class Register extends React.Component {
+                    constructor(props) {
+                        super(props);
+                        this.state = {
+                            name: '',
+                            address: '',
+                            location: { lat: 0, lng: 0 },
+                            fruit: ''
+                        };
+                    }
+                    handleSubmit = (e)=> {
+                        e.preventDefault();
+                        var address = this.refs.address.value;
+                        this.setState({
+                            name: this.refs.name.value,
+                            fruit: this.refs.fruit.value
+                        })
+                        // use googleAPI to convert address to lat & long
+                        const apiKey = "AIzaSyB2QIwkgOZZhlVNVYIIzOPMaspHlEWSOfw";
+                        
+                        fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`)
+                            .then(response => {
+                                response.json()})
+                            .then(data => {
+                                console.log('data' + data);
+                                if (data.results.length > 0) {
+                                    const p = data.results[0].geometry.location;
+                                    this.setState({
+                                        location: { lat: p.lat, long: p.lng }
+
+                                    })
+                                    console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+                                } else {
+                                    console.log("No results found");
+                                }
+                            })
+                            .catch(error => console.error(error));
+
+                        // send post request to store data to db
+                        const registerInfo = {
+                            name: this.state.name,
+                            lat: this.state.location.lat,
+                            lng: this.state.location.lng,
+                            fruit: this.state.fruit
+                        }
+                        fetch('/api/stands', {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(registerInfo)
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+                                console.log(data);
+                            })
+                            .catch(err => console.error(err));
+
+                    }
+                    render() {
+                        return (
+
+                            <div id="stand-container">
+                                <form id="open" onSubmit={this.handleSubmit}>
+
+                                    <label>Name of your store </label>
+                                    <input type="text" ref="name" placeholder="Name of your store" required />
+                                    <label>Address </label>
+                                    <input type="text" ref="address" placeholder="Address" required />
+                                    <label>Provide fruit </label>
+                                    <input type="text" ref="fruit" placeholder="Fruit" required />
+                                    <input type="submit" value="Open!" />
+                                </form>
+                            </div>
+                        );
+                    }
+                    
+                };
+                ReactDOM.render(<Register />, document.getElementById("stand-vendor"));
+            </script>
+
+    </body>
+
+</html>
